@@ -1,11 +1,11 @@
-function zeroSum3(numbers){
-  var flag = false;
+const zeroSum3 = numbers => {
+  let flag = false;
   numbers.forEach(function(firstNum, i){
-    var sum;
+    let sum;
     numbers.forEach(function(secNum, j){
       if(i!==j){
         sum=firstNum + secNum;
-        var toZero = numbers.indexOf(-1*sum);
+        let toZero = numbers.indexOf(-1*sum);
         if(toZero > -1 && toZero !==i && toZero !==j){
           flag = true;
           return flag;
