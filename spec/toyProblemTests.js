@@ -45,6 +45,46 @@
       expect(zeroSum([23,-7,345,123,-5,534,28,-1,90,-4,-6,34,-1,567,-8,21,-2,-3])).to.equal(false);
       expect(zeroSum([0])).to.equal(false);
       expect(zeroSum([0,1,2,3])).to.equal(false);
-    })
+    });
+  });
+
+  describe('wordsWithinWords', function(){
+    it('should be a function', function(){
+      expect(wordsWithinWords).to.be.function;
+    });
+    it('should return a string', function(){
+      expect(wordsWithinWords(['anything'])).to.be.a('string');
+    });
+    it('if only one word is passed in it should return that word', function(){
+      expect(wordsWithinWords(['anything'])).to.equal('anything');
+    });
+    it('should return a string that was in the array that was passed in', function(){
+      expect(wordsWithinWords(['anything'])).to.equal('anything');
+    });
+    //edge cases? what happens if its only passed one word?
+    it('should return the string that contains the greatest number of other words (from the array)', function(){
+      expect(wordsWithinWords(['hello', 'lo', 'he'])).to.equal('hello');
+      expect(wordsWithinWords(["gray","grays","ray","rays","strays"])).to.equal('grays');
+      expect(wordsWithinWords(["ant","anti","antiparticle","antiparty","apart","art","arty","disparted","impart","imparted","interparticle","interparty","part","parted","particle","party","tip"])).to.equal('antiparty');
+      expect(wordsWithinWords(["blue","back","up","and","going","javascript","much","provides","book","series","new","many","complete","background","years","necessary","those","limited","sufficiently","easy","toward","mechanisms","operators","function","types","including","first","sufficiently","easy","books","overview","unicorn","bear","bee","box","cat","gorilla","giant","gear","goal","home","ache","fantastic","exuberant","ice","hollow","happy","healthy","homily","cold","hot","yellow","orange","green","complacent","super","monster","bull","horse","pig","another","one","to","test","you","guys","out","how","like","me","now","son"])).to.equal('background');     
+    });
   });
 }());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
