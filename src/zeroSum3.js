@@ -1,3 +1,6 @@
+//Given an array of negative/positive integers, return true if there exists three numbers whose sum is zero.
+
+
 const zeroSum3 = numbers => {
   let flag = false;
   numbers.forEach(function(firstNum, i){
