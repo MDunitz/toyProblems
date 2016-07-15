@@ -69,6 +69,20 @@
       expect(wordsWithinWords(["blue","back","up","and","going","javascript","much","provides","book","series","new","many","complete","background","years","necessary","those","limited","sufficiently","easy","toward","mechanisms","operators","function","types","including","first","sufficiently","easy","books","overview","unicorn","bear","bee","box","cat","gorilla","giant","gear","goal","home","ache","fantastic","exuberant","ice","hollow","happy","healthy","homily","cold","hot","yellow","orange","green","complacent","super","monster","bull","horse","pig","another","one","to","test","you","guys","out","how","like","me","now","son"])).to.equal('background');     
     });
   });
+  describe('virtualDOM', function(){
+    it('should be a function', function(){
+      expect(virtualDOM).to.be.function;
+    });
+    it('should return an object', function(){
+      expect(virtualDOM('h1', {"class": "item"})).to.be.a('object');
+    });
+    it('should return an object containing 3 keys ("tag", "attrs", "children")', function(){
+      expect(virtualDOM('h1', {"class": "item"})).to.have.all.keys('tag', 'attrs', 'children')
+    });
+    it('should return an empty object as the attrs property if the attrs object doesnt contain the keys "class", "id", or "type"', function(){
+      expect(virtualDOM('p', '{"tag":"strong", "children":["yo"]}')).to.equal('{ "tag": "p", "attrs": { }, "children": [ { "tag": "strong", "children": [ "yo" ] } ] }');
+    });
+  });
 }());
 
 
