@@ -11,43 +11,47 @@ function virtualDOM (tagName, attrs, content) {
   
   var dom = {
     tag: tagName,
-    attrs: {},
     children: null
   };
   
-  if(Array.isArray(attrs)){
-    dom["children"]=attrs;
-  } else if(typeof attrs === 'string'){
-    dom['children']=[attrs]
+  if(!attrs){
+    dom['attrs'] = {};
+  } else if (containsOnlyAttrs(attrs)){
+    console.log('contains only attrs')
+    dom['attrs'] = attrs;
   }else {
-    for(var key in attrs){
-      if(key === 'class' || key === 'id' || key === 'type'){
-        dom["attrs"][key]=attrs[key];
-      }else {
-        if(dom['children']===null){
-          dom['children'] = [{}]
-        }
-        dom['children'][0][key] = attrs[key]
-      }
-    }
+    dom['attrs'] = {};
+    children = setChildren(dom, attrs);
   }
-  if(Array.isArray(content)){
-    if(dom['children']===null){
-      dom['children']=content
-    }
-    dom["children"].push(content)
-  } else if (typeof content === 'string'){
-    if(dom['children']===null){
-      dom['children']=[]
-    }
-    dom['children'].push(content)
+  if(content){
+    setChildren(dom, content)
   }
-  else if(typeof content === 'object') {
-    if(dom['children']===null){
-      dom['children']=[]
-    }
-    dom['children'].push(content)
-  }
-
+  console.log(dom);
   return dom;
 }
+
+
+function containsOnlyAttrs(attrs){
+  attrAttributes = {id:true, class:true, type:true};
+  for(var key in attrs){
+    if(!(attrAttributes[key])){
+      console.log('currentattr', key)
+      return false;
+    }
+  }
+  return true;
+}
+
+function setChildren(node, child){
+  if(node.children){
+    node.children.push(child)
+  } else if(Array.isArray(child)){
+    node['children'] = child
+  } else {
+    node.children = [child];
+  }
+}
+
+
+
+

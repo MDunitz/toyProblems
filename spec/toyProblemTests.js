@@ -77,10 +77,43 @@
       expect(virtualDOM('h1', {"class": "item"})).to.be.a('object');
     });
     it('should return an object containing 3 keys ("tag", "attrs", "children")', function(){
-      expect(virtualDOM('h1', {"class": "item"})).to.have.all.keys('tag', 'attrs', 'children')
+      var tag = 'h2';
+      var attrs = {id: 'what'};
+      var content = 'Hello World';
+      var expected = virtualDOM(tag, attrs, content);
+      expect(expected.tag).to.exist;
+      expect(expected.attrs).to.exist;
+      expect(expected.children).to.exist;
     });
-    it('should return an empty object as the attrs property if the attrs object doesnt contain the keys "class", "id", or "type"', function(){
-      expect(virtualDOM('p', '{"tag":"strong", "children":["yo"]}')).to.equal('{ "tag": "p", "attrs": { }, "children": [ { "tag": "strong", "children": [ "yo" ] } ] }');
+    it('should return an empty object as the attrs property if the attrs argument doesnt contain the keys "class", "id", or "type"', function(){
+      var tag = 'h3';
+      var attrs = {candy: 'what'};
+      var content;
+      var expected = virtualDOM(tag, attrs, content);
+      expect(expected.attrs).to.deep.equal({})
+    });
+    it('should return an object with children property equal to null if the attrs argument only contains keys "class"/"id"/"type" and there is no content argument)', function(){
+      var tag = 'h4';
+      var attrs = {id: 'what'};
+      var content;
+      var expected = virtualDOM(tag, attrs, content);
+      expect(expected.children).to.deep.equal(null);
+    });
+    it('should return an object containing the correct keys and properties for a variety of test cases', function(){
+      var expected = virtualDOM("h1", "Hello World");
+      expect(expected).to.deep.equal({"tag":"h1","attrs":{},"children":["Hello World"]});
+      expected = virtualDOM("div", {"class":"item"}, "My Item");
+      expect(expected).to.deep.equal({"tag":"div","attrs":{"class":"item"},"children":["My Item"]});
+      expected = virtualDOM("p", {"tag":"strong","children":["yo"]});
+      expect(expected).to.deep.equal({"tag":"p","attrs":{},"children":[{"tag":"strong","children":["yo"]}]});
+      expected = virtualDOM("input", {"type":"checkbox"}, {"tag":"label","children":["yo check me out"]});
+      expect(expected).to.deep.equal({"tag":"input","attrs":{"type":"checkbox"},"children":[{"tag":"label","children":["yo check me out"]}]});
+      expected = virtualDOM("br");
+      expect(expected).to.deep.equal({"tag":"br","attrs":{},"children":null});
+      expected = virtualDOM("div", ["My Item"]);
+      expect(expected).to.deep.equal({"tag":"div","attrs":{},"children":["My Item"]});
+      expected = virtualDOM("div", {"id":"pet-shop"});
+      expect(expected).to.deep.equal({"tag":"div","attrs":{"id":"pet-shop"},"children":null});
     });
   });
 }());
