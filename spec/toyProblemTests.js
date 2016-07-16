@@ -121,13 +121,15 @@
       expect(parseQueryString).to.be.function;
     });
     it('should return undefined when there is no querystring', function(){
-      expect(parseQueryString("http://example.com")).to.be.an('undefined');
+      expect(parseQueryString("")).to.be.an('undefined');
+      expect(parseQueryString("http://google.com")).to.be.an('undefined');
     });
     it('should return an array when the passed in URL contains a query string', function(){
       expect(parseQueryString("http://example.com?a=hello&b=99")).to.be.an('array')
     });
     it('should return an array containing the correct tuples for a variety of test urls', function(){
       expect(parseQueryString("http://example.com?a=hello&b=99")).to.deep.equal([["a","hello"],["b","99"]]);
+      expect(parseQueryString("http://example.com")).to.be.an('undefined');
       expect(parseQueryString("http://example.com?msg=hello%20world")).to.deep.equal([["msg","hello world"]]);
       expect(parseQueryString("http://www.amazon.com/dp/1118907442?s=books&ie=UTF8&sr=1-1")).to.deep.equal([["s","books"],["ie","UTF8"],["sr","1-1"]]);
       expect(parseQueryString("http://example.com/books/search?title=Etiquette%20%26%20Espionage")).to.deep.equal( [["title","Etiquette & Espionage"]]);
