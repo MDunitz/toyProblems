@@ -54,13 +54,13 @@
             return value;
           }
         }
-        result = root.DFSelect(evenFilter);
+        var result = root.DFSelect(evenFilter);
         //expect all the even values
         var expected = [2, 4, 8, 6];
         result.should.deep.equal(expected);
 
         var oddFilter = function(value){
-          if(value !==0){
+          if(value%2 !==0){
             return value;
           }
         }

@@ -1,10 +1,38 @@
+//Implement a depth-first method on a tree class.
+
+//DFSelect accepts a filter function, calls that function on each of the nodes in Depth First order, and returns a flat array of node values of the tree for which the filter returns true.
+
+
+
 var Tree = function(value){
   this.value = value;
   this.children = [];
 };
 
-Tree.prototype.DFSelect = function(child){
-  
+Tree.prototype.DFSelect = function(filter, depth){
+  if(!depth){
+    depth = 0;
+  }
+  var holding = [];
+  if(filter(this.value, depth)){
+    holding.push(this.value);
+  }
+  for(var i =0; i< this.children.length; i++){
+    var currNode = this.children[i];
+    var child = currNode.DFSelect(filter, depth+1);
+    holding = holding.concat(child)
+  }
+  return holding;
+}
+
+
+Tree.prototype.map = function(callback) {
+  var newTree = new Tree(callback(this.value));
+  this.children.forEach(function(child){
+    var newChild = child.map(callback);
+    newTree.addChild(newChild);
+  });
+  return newTree;
 }
 
 Tree.prototype.addChild = function(child){
