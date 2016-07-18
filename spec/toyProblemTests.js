@@ -1,5 +1,92 @@
 (function(){
   'use strict';
+
+  describe('treeDepthFirstSelect', function(){
+    var should = chai.should();
+    describe('Tree', function(){
+      it('should exist', function(){
+        should.exist(Tree);
+      });
+    });
+    describe('DFSelect', function(){
+      //depth 0
+      var root = new Tree (1);
+      //depth 1
+      root.addChild(2);
+      root.addChild(3);
+      //depth 2
+      root.children[0].addChild(4);
+      root.children[0].addChild(5);
+      root.children[1].addChild(6);
+      root.children[1].addChild(7);
+      //depth 3
+      root.children[0].children[0].addChild(8);
+      root.children[1].children[1].addChild(9);
+
+
+      it('should exist on the Tree prototype', function(){
+        should.exist(Tree.prototype.DFSelect);
+      });
+
+      it('should be a function', function(){
+        Tree.prototype.DFSelect.should.be.a.Function;
+      });
+
+      it('should return an array', function(){
+        var rootTest = new Tree('root');
+        var all = function(){ return true; };
+        Array.isArray(rootTest.DFSelect(all)).should.equal(true);
+      });
+
+      it('should return all nodes in the tree if filter always returns true', function() {
+      // this filter function should always return all of the nodes
+        var all = function () { return true; };
+        var expected = [1, 2, 4, 8, 5, 3, 6, 7, 9];
+        //expect all the nodes we added to root (above)
+        var result = root.DFSelect(all);
+        result.should.have.length(expected.length);
+        result.should.have.deep.equal(expected);
+      });
+
+      it('should return all nodes passing the filter', function(){
+        var evenFilter = function(value){
+          if(value%2===0){
+            return value;
+          }
+        }
+        result = root.DFSelect(evenFilter);
+        //expect all the even values
+        var expected = [2, 4, 8, 6];
+        result.should.deep.equal(expected);
+
+        var oddFilter = function(value){
+          if(value !==0){
+            return value;
+          }
+        }
+        result = root.DFSelect(oddFilter);
+        var expected = [1, 5, 3, 7, 9];
+        result.should.deep.equal(expected);
+      });
+
+      it('should allow filtering by depth', function(){
+        //this filter consturctor produces a filter function for the specified depth
+        var depthFilter = function(filterDepth){
+          return function(node, nodeDepth){
+            return filterDepth == nodeDepth;
+          };
+        };
+        //correct values for each depth based on tree defined above
+        var nodeDepths = [[1], [2,3], [4,5,6,7], [8,9]];
+
+        root.DFSelect(depthFilter(0)).should.deep.equal(nodeDepths[0]);
+        root.DFSelect(depthFilter(1)).should.deep.equal(nodeDepths[1]);
+        root.DFSelect(depthFilter(2)).should.deep.equal(nodeDepths[2]);
+        root.DFSelect(depthFilter(3)).should.deep.equal(nodeDepths[3]);
+      });
+
+    });
+  });
   
   describe('treeMapping', function(){
     var should = chai.should();
