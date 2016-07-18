@@ -7,7 +7,6 @@
 
 
 function virtualDOM (tagName, attrs, content) {
-  //works but only for the test cases used...
   
   var dom = {
     tag: tagName,
@@ -17,7 +16,6 @@ function virtualDOM (tagName, attrs, content) {
   if(!attrs){
     dom['attrs'] = {};
   } else if (containsOnlyAttrs(attrs)){
-    console.log('contains only attrs')
     dom['attrs'] = attrs;
   }else {
     dom['attrs'] = {};
@@ -35,7 +33,6 @@ function containsOnlyAttrs(attrs){
   attrAttributes = {id:true, class:true, type:true};
   for(var key in attrs){
     if(!(attrAttributes[key])){
-      console.log('currentattr', key)
       return false;
     }
   }
