@@ -12,8 +12,13 @@ var Tree = function(value){
 }
 
 Tree.prototype.map = function(callback) {
-  // body...
-};
+  var newTree = new Tree(callback(this.value));
+  this.children.forEach(function(child){
+    var newChild = child.map(callback);
+    newTree.addChild(newChild);
+  });
+  return newTree;
+}
 
 
 //add an immediate child, wrapping values in tree nodes if needed

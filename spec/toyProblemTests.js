@@ -204,7 +204,7 @@
         output.children[0].children[0].addChild(18);
         output.children[1].children[1].addChild(20);
 
-        result = input.map(double);
+        var result = input.map(double);
         verifyTree(result, output);
       });
     });
