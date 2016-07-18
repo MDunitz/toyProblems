@@ -1,5 +1,5 @@
 (function(){
-  // 'use strict';
+  'use strict';
   describe('zeroSum3', function(){
     it('should be a function', function(){
       expect(zeroSum3).to.be.function;
@@ -135,8 +135,79 @@
       expect(parseQueryString("http://example.com/books/search?title=Etiquette%20%26%20Espionage")).to.deep.equal( [["title","Etiquette & Espionage"]]);
     });
   });
-  describe('Tree Mapping', function(){
+  describe('treeMapping', function(){
+    var should = chai.should();
+    it('should exist', function(){
+      should.exist(Tree);
+    });
+    it('should be a function', function(){
+      Tree.should.be.a.Function;
+    });
+    //create a tree with some values
+    var input = new Tree(1);
+    //depth 1
+    input.addChild(2);
+    input.addChild(3);
+    //depth 2
+    input.children[0].addChild(4);
+    input.children[0].addChild(5);
+    input.children[1].addChild(6);
+    input.children[1].addChild(8);
+    //depth 3
+    input.children[0].children[0].addChild(9);
+    input.children[1].children[1].addChild(10);
+    //compare output from mapping function to the expected result
+    var verifyTree = function(result, expectation){
+      result.should.be.an.instanceOf(Tree);  // we expect a tree node
+      result.value.should.equal(expectation.value); // with the same value
+      result.should.not.equal(expectation); // but NOT the same node
+      result.children.should.have.length(expectation.children.length);
+      for (var i =0; i < result.children.length; i++){
+        verifyTree(result.children[i], expectation.children[i]);
+      }
+    }
 
+    describe('map()', function(){
+      it('should exist on the Tree prototype', function(){
+        should.exist(Tree.prototype.map);
+      });
+      it('should be function', function(){
+        Tree.prototype.map.should.be.a.Function;
+      });
+      it('should return a Tree instance', function(){
+        var root = new Tree('root');
+        var identity = function(value) { return value; };
+        var result = root.map(identity);
+        should.exist(result);
+        result.should.be.an.instanceOf(Tree);
+      });
+      it('should return an identical tree if the mapping function returns the value unaltered', function(){
+        var identity = function(value){ return value; };
+
+        var result = input.map(identity);
+        //becaue identity doesnt change anything the input and output trees should have identical values
+        verifyTree(result, input)
+      });
+      it('should return a tree with doubled values if the function doubles the value', function(){
+        var double = function(value){return value * 2; };
+        //create tree with expected values
+        var output = new Tree(2);
+        //depth 1
+        output.addChild(4);
+        output.addChild(6);
+        //depth 2
+        output.children[0].addChild(8);
+        output.children[0].addChild(10);
+        output.children[1].addChild(12);
+        output.children[1].addChild(16);
+        //depth 3
+        output.children[0].children[0].addChild(18);
+        output.children[1].children[1].addChild(20);
+
+        result = input.map(double);
+        verifyTree(result, output);
+      });
+    });
   });
 }());
 
