@@ -24,7 +24,6 @@ function virtualDOM (tagName, attrs, content) {
   if(content){
     setChildren(dom, content)
   }
-  console.log(dom);
   return dom;
 }
 
