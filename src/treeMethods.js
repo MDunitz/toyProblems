@@ -48,7 +48,16 @@ Tree.prototype.map = function(callback) {
 // traverse the tree, and return the number of leaf nodes the tree contains.
 
 Tree.prototype.countLeaves = function(){
-  
+  var leaves = 0;
+  if(this.children.length===0){
+    leaves ++;
+  }
+  for(var i = 0; i<this.children.length; i++){
+    var currChild = this.children[i];
+    var childLeaves = currChild.countLeaves();
+    leaves+=childLeaves;
+  }
+  return leaves
 }
 
 Tree.prototype.addChild = function(child){

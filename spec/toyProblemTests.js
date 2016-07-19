@@ -1,5 +1,88 @@
 (function(){
   'use strict';
+  describe('treeCountLeaves', function(){
+    var should = chai.should();
+    describe('Tree', function(){
+      it('should exist', function(){
+        should.exist(Tree);
+      });
+    });
+    describe('treeCountLeaves', function(){
+      it('should exist on the Tree prototype', function(){
+        should.exist(Tree.prototype.countLeaves);
+      });
+      it('should be a function', function(){
+        Tree.prototype.countLeaves.should.be.a.Function;
+      });
+      it('should return a number', function(){
+        var root = new Tree('root');
+        root.countLeaves().should.be.a.Number;
+      });
+      it('should return 1 if the tree root has no children', function(){
+        var root = new Tree();
+        root.countLeaves().should.equal(1);
+      });
+      it('should return the correct number of leaves (2 if the root has 2 children', function(){
+        var root = new Tree();
+        root.addChild(new Tree());
+        root.addChild(new Tree());
+        root.countLeaves().should.equal(2);
+      });
+      it('should still return 2 if one branch has a leaf', function(){
+        var root = new Tree();
+        root.addChild(new Tree());
+        var branch = new Tree();
+        root.addChild(branch);
+        branch.addChild(new Tree());
+        root.countLeaves().should.equal(2);
+      });
+      it('should return 6 if the tree has 3 branches each with 2 children', function(){
+        var root = new Tree();
+        var branch1 = new Tree();
+        var branch2 = new Tree();
+        var branch3 = new Tree();
+        root.addChild(branch1);
+        root.addChild(branch2);
+        root.addChild(branch3);
+        branch1.addChild(new Tree());
+        branch1.addChild(new Tree());
+        branch2.addChild(new Tree());
+        branch2.addChild(new Tree());
+        branch3.addChild(new Tree());
+        branch3.addChild(new Tree());
+
+        root.countLeaves().should.equal(6);
+      });
+      it('should be able to correctly count the leaves on a large tree', function(){
+        var root = new Tree();
+        var branch1 = new Tree();
+        var branch2 = new Tree();
+        var branch3 = new Tree();
+        var branch4 = new Tree();
+        var branch5 = new Tree();
+        var branch6 = new Tree();
+        root.addChild(branch1);
+        root.addChild(branch2);
+        root.addChild(branch3);
+        root.addChild(branch4);
+        root.addChild(branch5);
+        root.addChild(branch6);
+        
+        branch2.addChild(new Tree());
+        branch2.addChild(new Tree());
+        branch3.addChild(new Tree());
+        branch3.addChild(new Tree());
+        branch4.addChild(new Tree());
+        branch4.addChild(new Tree());
+        branch5.addChild(new Tree());
+        branch5.addChild(new Tree());
+        branch6.addChild(new Tree());
+        branch6.addChild(new Tree());
+
+        root.countLeaves().should.equal(11)
+      });
+    });
+  });
 
   describe('treeDepthFirstSelect', function(){
     var should = chai.should();
