@@ -1,6 +1,4 @@
-//Implement a depth-first method on a tree class.
 
-//DFSelect accepts a filter function, calls that function on each of the nodes in Depth First order, and returns a flat array of node values of the tree for which the filter returns true.
 
 
 
@@ -8,6 +6,11 @@ var Tree = function(value){
   this.value = value;
   this.children = [];
 };
+
+
+//Implement a depth-first method on a tree class.
+
+//DFSelect accepts a filter function, calls that function on each of the nodes in Depth First order, and returns a flat array of node values of the tree for which the filter returns true.
 
 Tree.prototype.DFSelect = function(filter, depth){
   if(!depth){
@@ -25,7 +28,11 @@ Tree.prototype.DFSelect = function(filter, depth){
   return holding;
 }
 
+// Implement a map method on this Tree class.
 
+// Map accepts a mapping function as its only argument. It traverses the tree, passing each node’s value into the mapping function, and generates a new tree containing the results.
+
+// So map should return a tree with the same structure, and different values, but it should NOT modify the tree that was passed in.
 Tree.prototype.map = function(callback) {
   var newTree = new Tree(callback(this.value));
   this.children.forEach(function(child){
@@ -33,6 +40,15 @@ Tree.prototype.map = function(callback) {
     newTree.addChild(newChild);
   });
   return newTree;
+}
+
+// Implement the countLeaves function in this Tree class.
+
+// A leaf node is any node in the tree that has no children. countLeaves should
+// traverse the tree, and return the number of leaf nodes the tree contains.
+
+Tree.prototype.countLeaves = function(){
+  
 }
 
 Tree.prototype.addChild = function(child){
