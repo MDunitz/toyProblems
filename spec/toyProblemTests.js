@@ -52,7 +52,7 @@
 
         var expected = [0,1,2,3,4,5,6];
         var result = root.BFSelect(all);
-        result.should.deep.eqaul(expected);
+        result.should.deep.equal(expected);
       });
       it('should return all nodes passing the filter', function(){
         var evenFilter = function(value, depth){

@@ -64,8 +64,24 @@ Tree.prototype.countLeaves = function(){
 
 // BFSelect accepts a filter function, calls that function on each of the nodes in Breadth-First order, and returns a flat array of node values of the tree for which the filter returns
 
-Tree.prototype.BFSelect = function(){
-  
+Tree.prototype.BFSelect = function(filter){
+  var holding = [];
+  var result = [];
+  //debugger;
+  this.depth=0
+  holding.push(this);
+  while(holding.length > 0){
+    var curr = holding.shift();
+    if(filter(curr.value, curr.depth)){
+      result.push(curr.value);
+    }
+    for(var i = 0; i<curr.children.length; i++){
+      var currChild = curr.children[i];
+      currChild.depth = curr.depth+1;
+      holding.push(currChild);
+    }
+  }
+  return result;
 }
 
 Tree.prototype.addChild = function(child){
