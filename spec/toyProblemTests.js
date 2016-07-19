@@ -1,5 +1,127 @@
 (function(){
   'use strict';
+  describe('treeBreadthFirstSelect', function(){
+    var should = chai.should();
+    describe('Tree', function(){
+      it('should exist', function(){
+        should.exist(Tree);
+      });
+    });
+    describe('treeBreadthFirstSelect', function(){
+      it('should exist on the tree prototype', function(){
+        should.exist(Tree.prototype.BFSelect);
+      });
+      it('should be a function', function(){
+        Tree.prototype.BFSelect.should.be.a.Function;
+      });
+      it('should return an array', function(){
+        var root = new Tree ('root');
+        var all = function(){return true}
+        Array.isArray(root.BFSelect(all)).should.equal(true);
+      });
+      it('should return all of the nodes in the tree if the filter always evaluates to true', function(){
+        var root = new Tree(0);
+        var branch1 = new Tree(1);
+        var branch2 = new Tree(2);
+        root.addChild(branch1);
+        root.addChild(branch2);
+        branch1.addChild(new Tree(3));
+        branch1.addChild(new Tree(4));
+        branch2.addChild(new Tree(5));
+        branch2.addChild(new Tree(6));
+        var all = function(){return true};
+
+        var expected = [0,1,2,3,4,5,6];
+        var result = root.BFSelect(all);
+        result.should.have.length(expected.length);
+        for(var i = 0; i<expected.length; i++){
+          result.should.contain(expected[i]);
+        }
+      });
+      it('should filter the nodes in a breadth-first manner', function(){
+        var root = new Tree(0);
+        var branch1 = new Tree(1);
+        var branch2 = new Tree(2);
+        root.addChild(branch1);
+        root.addChild(branch2);
+        branch1.addChild(new Tree(3));
+        branch1.addChild(new Tree(4));
+        branch2.addChild(new Tree(5));
+        branch2.addChild(new Tree(6));
+        var all = function(){return true};
+
+        var expected = [0,1,2,3,4,5,6];
+        var result = root.BFSelect(all);
+        result.should.deep.eqaul(expected);
+      });
+      it('should return all nodes passing the filter', function(){
+        var evenFilter = function(value, depth){
+          if(value%2===0){
+            return true;
+          } 
+        };
+        var oddFilter = function(value, depth){
+          if(value%2!==0){
+            return true;
+          }
+        };
+        var root = new Tree(0);
+        var branch1 = new Tree(1);
+        var branch2 = new Tree(2);
+        root.addChild(branch1);
+        root.addChild(branch2);
+        branch1.addChild(new Tree(3));
+        branch1.addChild(new Tree(4));
+        branch2.addChild(new Tree(5));
+        branch2.addChild(new Tree(6));
+        var evenExpected = [0,2,4,6];
+        var evenResult = root.BFSelect(evenFilter);
+        var oddExpected = [1,3,5];
+        var oddResult = root.BFSelect(oddFilter);
+        evenResult.length.should.equal(evenExpected.length);
+        oddResult.length.should.equal(oddExpected.length);
+        evenResult.should.deep.equal(evenExpected);
+        oddResult.should.deep.equal(oddExpected);
+      });
+      it('should allow filtering by depth', function(){
+        //filter constructor produces a filter for the specified depth
+        var depthFilter = function(filterDepth){
+          return function(node, nodeDepth){
+            return filterDepth === nodeDepth;
+          };
+        };
+        //depth 0
+        var root = new Tree(0);
+        //depth 1
+        var branch1 = new Tree(1);
+        var branch2 = new Tree(2);
+        var branch3 = new Tree(1);
+        var branch4 = new Tree(2);
+        root.addChild(branch1);
+        root.addChild(branch2);
+        root.addChild(branch3);
+        root.addChild(branch4);
+        //depth 2
+        branch1.addChild(new Tree(3));
+        branch1.addChild(new Tree(4));
+        branch2.addChild(new Tree(5));
+        branch2.addChild(new Tree(6));
+        branch3.addChild(new Tree(7));
+        branch3.addChild(new Tree(8));
+        branch4.addChild(new Tree(9));
+        branch4.addChild(new Tree(10));
+        var depthExpect = [[0], [1,2,1,2], [3,4,5,6,7,8,9,10]];
+        var resultDepth0 = root.BFSelect(depthFilter(0));
+        var resultDepth1 = root.BFSelect(depthFilter(1));
+        var resultDepth2 = root.BFSelect(depthFilter(2));
+        //do I need to sort?
+        resultDepth0.should.deep.equal(depthExpect[0]);
+        resultDepth1.should.deep.equal(depthExpect[1]);
+        resultDepth2.should.deep.equal(depthExpect[2]);
+      });
+    });
+  });
+
   describe('treeCountLeaves', function(){
     var should = chai.should();
     describe('Tree', function(){
@@ -128,7 +250,7 @@
         //expect all the nodes we added to root (above)
         var result = root.DFSelect(all);
         result.should.have.length(expected.length);
-        result.should.have.deep.equal(expected);
+        result.should.deep.equal(expected);
       });
 
       it('should return all nodes passing the filter', function(){
