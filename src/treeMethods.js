@@ -83,18 +83,14 @@ Tree.prototype.BFSelect = function(filter){
   }
   return result;
 }
+//write addChild and contains methods for the tree
 
 Tree.prototype.addChild = function(child){
-  if (!child || !(child instanceof Tree)){
-    child = new Tree(child);
-  }
-  if(!this.isDescendant(child)){
-    this.children.push(child);
-  }else {
-    throw new Error("That child is already a child of this tree");
-  }
-  // return the new child node for convenience
-  return child;
+
+};
+
+Tree.prototype.contains = function(value){
+
 };
 
 Tree.prototype.isDescendant = function(child){
