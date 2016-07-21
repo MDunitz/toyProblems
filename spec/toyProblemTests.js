@@ -1,5 +1,46 @@
 (function(){
   'use strict';
+
+  describe('addChild and contains methods', function(){
+    var should = chai.should();
+    describe('Tree', function(){
+      it('should exist', function(){
+        should.exist(Tree);
+      });
+    });
+    describe('addChild', function(){
+      it('should exist on the tree prototype', function(){
+        should.exist(Tree.prototype.addChild);
+      });
+      it('should be a function', function(){
+        Tree.prototype.addChild.should.be.a.Function;
+      });
+      it('should add children to the tree', function(){
+        var root = new Tree(0);
+        root.addChild(5);
+        root.children[0].value.should.equal(5);
+      });
+    });
+    describe('contains', function(){
+      it('should exist on the tree prototype', function(){
+        should.exist(Tree.prototype.contains);
+      });
+      it('should be a function', function(){
+        Tree.prototype.contains.should.be.a.Function;
+      });
+      it('should return true for a value that the tree contains', function(){
+        var root = new Tree(0);
+        root.addChild(5);
+        root.contains(5).should.equal(true);
+      });
+      it('should return false for a value that was not added', function(){
+        var root = new Tree(0);
+        root.addChild(5);
+        root.contains(9).should.equal(false);
+      });
+    });
+  });
+
   describe('treeBreadthFirstSelect', function(){
     var should = chai.should();
     describe('Tree', function(){
