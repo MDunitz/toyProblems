@@ -86,20 +86,40 @@ Tree.prototype.BFSelect = function(filter){
 //write addChild and contains methods for the tree
 
 Tree.prototype.addChild = function(child){
-
+  if (!child || !(child instanceof Tree)){
+    child = new Tree(child);
+  }
+  if(!this.contains(child)){
+    this.children.push(child);
+  }else {
+    throw new Error("That child is already a child of this tree");
+  }
+  // return the new child node for convenience
+  return child;
 };
 
-Tree.prototype.contains = function(value){
+// Tree.prototype.contains = function(child){
+//     if(this.children.indexOf(child) !== -1){
+//     // `child` is an immediate child of this tree
+//     return true;
+//   }else{
+//     for(var i = 0; i < this.children.length; i++){
+//       if(this.children[i].isDescendant(child)){
+//         // `child` is descendant of this tree
+//         return true;
+//       }
+//     }
+//     return false;
+//   }
+// };
 
-};
-
-Tree.prototype.isDescendant = function(child){
-  if(this.children.indexOf(child) !== -1){
+Tree.prototype.contains = function(child){
+  if(this===child||this.children.indexOf(child) !== -1){
     // `child` is an immediate child of this tree
     return true;
   }else{
     for(var i = 0; i < this.children.length; i++){
-      if(this.children[i].isDescendant(child)){
+      if(this.children[i].contains(child)){
         // `child` is descendant of this tree
         return true;
       }

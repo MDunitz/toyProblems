@@ -30,8 +30,14 @@
       });
       it('should return true for a value that the tree contains', function(){
         var root = new Tree(0);
+        console.log('root', root);
         root.addChild(5);
-        root.contains(5).should.equal(true);
+        console.log('added 5', root);
+        root.addChild(10);
+        console.log('added 10', root)
+        var node = new Tree(5)
+        console.log('node', node)
+        root.contains(node).should.equal(true);
       });
       it('should return false for a value that was not added', function(){
         var root = new Tree(0);
