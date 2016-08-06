@@ -1,6 +1,10 @@
 (function(){
   'use strict';
-
+  describe('timeAlgebra', function(){
+    it('should be a function', function(){
+      expect(timeAlgebra).to.be.function;
+    });
+  })
   describe('addChild and contains methods', function(){
     var should = chai.should();
     describe('Tree', function(){

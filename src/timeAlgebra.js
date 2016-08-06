@@ -1,0 +1,3 @@
+function timeAlgebra(time, hours){
+
+}
